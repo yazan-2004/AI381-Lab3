@@ -4,21 +4,19 @@ from pathlib import Path
 import joblib
 import mlflow
 import mlflow.sklearn
-
 from sklearn.datasets import load_iris
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import (
     accuracy_score,
+    f1_score,
     precision_score,
     recall_score,
-    f1_score,
 )
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVC
-
 
 ROOT = Path(__file__).resolve().parents[2]
 MODEL_PATH = ROOT / "model.joblib"
