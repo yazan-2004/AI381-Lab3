@@ -17,6 +17,9 @@ ENV PYTHONPATH=/app
 
 WORKDIR /app
 
+RUN apt-get update && apt-get upgrade -y \
+    && rm -rf /var/lib/apt/lists/*
+
 RUN useradd --create-home appuser
 
 COPY --from=builder /install /usr/local
