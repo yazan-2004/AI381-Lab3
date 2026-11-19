@@ -5,3 +5,6 @@ __pycache__/
 .ruff_cache/
 model.joblib
 .env
+.venv312/
+mlflow.db
+mlruns/

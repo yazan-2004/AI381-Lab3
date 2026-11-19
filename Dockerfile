@@ -1,15 +1,15 @@
 
 # Stage 1: Builder
-FROM python:3.11-slim AS builder
+FROM python:3.12-slim AS builder
 
 WORKDIR /build
 
-COPY requirements.txt .
+COPY requirements-docker.txt .
 
-RUN pip install --no-cache-dir --prefix=/install -r requirements.txt
+RUN pip install --no-cache-dir --prefix=/install -r requirements-docker.txt
 
 # Stage 2: Runtime
-FROM python:3.11-slim
+FROM python:3.12-slim
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
@@ -20,8 +20,6 @@ WORKDIR /app
 RUN useradd --create-home appuser
 
 COPY --from=builder /install /usr/local
-
-RUN python -m pip uninstall -y setuptools
 
 COPY src/ ./src/
 COPY model.joblib ./model.joblib
