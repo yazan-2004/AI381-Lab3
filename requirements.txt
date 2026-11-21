@@ -7,3 +7,4 @@ pytest
 httpx
 ruff
 mlflow==3.18.0
+pandas
