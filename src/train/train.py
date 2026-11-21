@@ -1,17 +1,13 @@
-
-from pathlib import Path
 import hashlib
-import tempfile
 import time
+from pathlib import Path
 
 import joblib
 import mlflow
 import mlflow.sklearn
 import numpy as np
 import pandas as pd
-
 from mlflow.models import infer_signature
-
 from sklearn.compose import ColumnTransformer
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
@@ -25,7 +21,6 @@ from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 from sklearn.svm import SVC
-
 
 ROOT = Path(__file__).resolve().parents[2]
 
