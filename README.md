@@ -1,90 +1,48 @@
-# AI381 Lab 2 — Iris Classifier
-
-A machine learning API built with Python, scikit-learn, and FastAPI.
+# AI381 Lab 3 — MLOps: Experiment Tracking, Model Selection, CI/CD and Deployment
 
 ## Project Overview
 
-This project trains a machine learning model to classify Iris flowers using four measurements:
-- Sepal length
-- Sepal width
-- Petal length
-- Petal width
+This project demonstrates an end-to-end MLOps workflow, including machine learning experiment tracking, model evaluation, model selection, automated testing, CI/CD, containerization, and deployment.
 
-The trained model is exposed through a REST API.
+The project includes:
+- A Telco Customer Churn experiment for comparing candidate machine learning models.
+- An Iris Classification API built with FastAPI for containerization and deployment.
 
 ## Technologies
-- Python
+
+- Python 3.12
 - scikit-learn
+- MLflow
 - FastAPI
 - pytest
 - Ruff
-- Docker (pending setup)
-- GitHub Actions (pending setup)
+- Docker
+- Docker Compose
+- GitHub Actions
+- Trivy
+- GitHub Container Registry (GHCR)
 
-## API Endpoints
+## Churn Model Experiment
 
-### Health Check
-`GET /health`
+The MLflow experiment is named `AI381-Lab3-Churn`.
 
-Returns the application health status.
+Dataset:
+`WA_Fn-UseC_-Telco-Customer-Churn.csv`
 
-### Prediction
-`POST /predict`
+Three candidate models were trained and evaluated:
 
-Example request:
+| Model | Accuracy | F1-Score |
+|---|---:|---:|
+| Logistic Regression | 0.7257 | 0.6069 |
+| Random Forest | 0.7640 | 0.5921 |
+| SVM | 0.7257 | 0.6004 |
 
-```json
-{
-  "sepal_length": 5.1,
-  "sepal_width": 3.5,
-  "petal_length": 1.4,
-  "petal_width": 0.2
-}
-```
+### Model Selection
 
-Example response:
+Logistic Regression was selected as the champion model based on its highest F1-score, lowest p95 prediction latency, and smallest model size.
 
-```json
-{
-  "prediction": 0,
-  "species": "setosa"
-}
-```
+The selected model was registered in MLflow as `ChurnChampion`, with version 1 assigned the `champion` alias.
 
-## Run Locally
+### Promotion Gate
 
-Train the model:
-
-```powershell
-.\.venv\Scripts\python.exe src\train\train.py
-```
-
-Start the API:
-
-```powershell
-.\.venv\Scripts\python.exe -m uvicorn src.app.main:app --reload
-```
-
-Open the interactive API documentation at `http://127.0.0.1:8000/docs`.
-
-## Run Tests
-
-```powershell
-.\.venv\Scripts\python.exe -m pytest -v
-```
-
-## Code Quality
-
-```powershell
-.\.venv\Scripts\python.exe -m ruff check src tests
-```
-
-## Project Status
-
-- [x] Model training
-- [x] FastAPI endpoints
-- [x] Five automated tests
-- [x] Ruff code-quality check
-- [ ] Docker image build and scan
-- [ ] GitHub Actions CI workflow
-- [ ] Publish image to GitHub Container Registry
+A promotion gate compares a challenger model against the current champion using
